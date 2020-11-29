@@ -1,0 +1,67 @@
+div {
+    display: block;
+}
+body {
+    font-family: 'Segoe UI',Helvetica,Sans-Serif;
+    font-size: 12px;
+    background-color: #345;
+    color: #333;
+    margin: 0;
+    min-height: 800px;
+}
+
+#puzTable {
+    visibility: visible;
+    border-collapse: collapse;
+    margin-right: 6px;
+    background-color: #fff;
+}
+table {
+    border-collapse: separate;
+    text-indent: initial;
+    border-spacing: 2px;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+#puzTable td {
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    border: 1px solid #999;
+    vertical-align: top;
+}
+td {
+    display: table-cell;
+    vertical-align: inherit;
+    cursor: pointer;
+}
+#puzTable .current {
+    background-color: rgb(255, 219, 110);
+}
+#puzTable .curword {
+    background-color: rgb(170, 221, 255);
+}
+#puzTable .black {
+    background-color: rgb(22, 22, 22);
+    border: 1px solid rgb(22, 22, 22);
+}
+#puzTable div.letter {
+    height: 17px;
+    font-weight: bold;
+    font-size: 13px;
+}
+#puzTable .grid {
+    font-size: 8px;
+    text-align: left;
+    height: 8px;
+    margin: 0;
+    padding: 0 0 0 2px;
+    color: #00004d;
+}
+.unready {
+    background-color: #f1f1f1;
+}
