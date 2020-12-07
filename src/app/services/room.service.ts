@@ -9,17 +9,17 @@ export class RoomService {
   constructor(private http: HttpClient) { }
 
   putRoom(grid:String[]){
-    const url = `localhost:3000/room`;
+    const url = `ec2-3-93-45-124.compute-1.amazonaws.com:3000/room`;
     console.log(grid);
     return this.http.put(url, grid);
   }
   putRoomWithID(room:number, grid:String[]){
-    const url = `localhost:3000/room/${room}`;
+    const url = `ec2-3-93-45-124.compute-1.amazonaws.com:3000/room/${room}`;
     console.log(grid);
     return this.http.put(url, grid);
   }
   getRoom(room:number){
-    const url = `localhost:3000/room?room=${room}`;
+    const url = `ec2-3-93-45-124.compute-1.amazonaws.com:3000/room?room=${room}`;
     return this.http.get(url);
   }
 }
