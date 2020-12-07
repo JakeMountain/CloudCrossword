@@ -8,6 +8,9 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 import { PuzzleComponent } from './components/puzzle/puzzle.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
+import { AcrosscluesComponent } from './components/puzzle/acrossclues/acrossclues.component';
+import { DowncluesComponent } from './components/puzzle/downclues/downclues.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -15,7 +18,9 @@ import { MaterialModule } from './material/material.module';
   declarations: [
     AppComponent,
     HomepageComponent,
-    PuzzleComponent
+    PuzzleComponent,
+    AcrosscluesComponent,
+    DowncluesComponent
   ],
   imports: [
     BrowserModule,
@@ -24,6 +29,8 @@ import { MaterialModule } from './material/material.module';
     MaterialModule,
     HttpClientModule,
     HttpClientJsonpModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

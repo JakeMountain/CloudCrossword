@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HostListener } from '@angular/core';
+import { interval, Subscription } from 'rxjs';
+import { RoomService } from 'src/app/services/room.service';
 
 @Component({
   selector: 'app-puzzle',
@@ -9,7 +11,8 @@ import { HostListener } from '@angular/core';
 
 
 export class PuzzleComponent implements OnInit {
-  @Input() puzzle: any;
+  @Input() puzzle: any; //this needs to come from server
+  @Input() roomID!: number;
   rows: number;
   cols: number;
   rowArr: Array<number>;
@@ -26,22 +29,30 @@ export class PuzzleComponent implements OnInit {
   lastClicked:[number,number];
   userGrid: Array<string>;
 
-  constructor() {
+  subscription: Subscription;
+
+  constructor(private roomService:RoomService) {
     this.rows = 0;
     this.cols = 0;
     this.rowArr = [];
     this.colArr = [];
-    this.cellClasses = [];
-    this.curSquare = 0;
-    this.horizontal = true;
-    this.acrossWordArr = [];
-    this.downWordArr = [];
-    this.gridWordAssoc = [];
-    this.grid = [];
-    this.downGrid = [];
-    this.highlightedWord = [];
-    this.lastClicked = [0,0];
-    this.userGrid = [];
+    this.cellClasses = []; //this
+    this.curSquare = 0; //i forget but probably this
+    this.horizontal = true; //this
+    this.acrossWordArr = [];//this
+    this.downWordArr = []; //this
+    this.gridWordAssoc = []; //this
+    this.grid = []; //construction
+    this.downGrid = []; //used for construction
+    this.highlightedWord = []; //this
+    this.lastClicked = [0,0]; //this
+
+
+    this.userGrid = []; //SERVER
+
+
+    const source = interval(10000);
+    this.subscription = source.subscribe(val => this.getServerGrid());
   }
 
   ngOnInit(): void {
@@ -75,7 +86,7 @@ export class PuzzleComponent implements OnInit {
   }
 
   createGrid(){
-    this.userGrid = new Array(this.puzzle["grid"].length).fill("");
+    this.userGrid = new Array(this.puzzle["grid"].length).fill(" ");
     //put dots where they belong in user grid
     for(let i = 0; i < this.userGrid.length; ++i){
       if (this.puzzle["grid"][i] == "."){
@@ -240,13 +251,13 @@ export class PuzzleComponent implements OnInit {
       this.setSelectedSquare(row, col);
     }
     else if(key === "Backspace"){
-      if (this.userGrid[row*this.cols + col] == ""){
+      if (this.userGrid[row*this.cols + col] == " "){
         
         let ind = this.getPrevSquare(row, col);
         this.setSelectedSquare(ind[0], ind[1]);
       }
       else{
-        this.userGrid[row*this.cols+col] = "";
+        this.userGrid[row*this.cols+col] = " ";
       }
     }
     else if(key === "Enter"){
@@ -258,7 +269,8 @@ export class PuzzleComponent implements OnInit {
       let ind = this.getNextSquare(row,col);
       this.setSelectedSquare(ind[0], ind[1]);
     }
-
+    //update server grid with every keypress
+    this.updateServerGrid();
   }
 
   getPrevSquare(row:number, col:number){
@@ -366,4 +378,24 @@ export class PuzzleComponent implements OnInit {
     }
   }
 
+  getServerGrid(){
+    //call server for updated usergrid
+    const req = this.roomService.getRoom(this.roomID);
+    let requestData = null;
+    req.subscribe((data : any) => {
+      console.log(data);
+      requestData = data;
+      console.log(requestData);
+      //this.userGrid = requestData[0]["usergrid"];
+    });
+  }
+  updateServerGrid(){
+    const req = this.roomService.putRoomWithID(this.roomID, this.userGrid);
+    req.subscribe((data : any) => {
+      console.log(data);
+    });
+  }
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
 }

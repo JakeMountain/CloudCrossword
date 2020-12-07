@@ -1,27 +1,37 @@
-<div>
-    <table id="puzTable" style="visibility:visible;">
-        <tbody>
-            <ng-container *ngFor='let row of rowArr; index as i'>
-                <tr>
-                    <ng-container *ngFor='let col of colArr; index as j'>
+<div class="row">
+    <div class="block">
+        <table id="puzTable" style="visibility:visible;">
+            <tbody>
+                <ng-container *ngFor='let row of rowArr; index as i'>
+                    <tr>
+                        <ng-container *ngFor='let col of colArr; index as j'>
 
 
-                        <td class={{cellClasses[i*rows+j]}} (click)=onSquareClick(i,j)>
-                            <div class="grid">
-                                <ng-container *ngIf='puzzle["gridnums"][i*cols + j] > 0'>
-                                    {{puzzle["gridnums"][i*rows + j]}}
-                                </ng-container>
-                            </div>
-                            <div class="letter">
-                                <ng-container *ngIf='puzzle["grid"][i*cols + j] != "."'>
-                                    {{userGrid[i*rows + j]}}
-                                </ng-container>
-                                
-                            </div>
-                        </td>
-                    </ng-container>
-                </tr>
-            </ng-container>
-        </tbody>
-    </table>
+                            <td class={{cellClasses[i*rows+j]}} (click)=onSquareClick(i,j)>
+                                <div class="grid">
+                                    <ng-container *ngIf='puzzle["gridnums"][i*cols + j] > 0'>
+                                        {{puzzle["gridnums"][i*rows + j]}}
+                                    </ng-container>
+                                </div>
+                                <div class="letter">
+                                    <ng-container *ngIf='puzzle["grid"][i*cols + j] != "."'>
+                                        {{userGrid[i*rows + j]}}
+                                    </ng-container>
+                                    
+                                </div>
+                            </td>
+                        </ng-container>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+    <div class="block">
+        <app-acrossclues [curSquare]="lastClicked" 
+            [acrossWordArr]="acrossWordArr" 
+            [clues]="puzzle['clues']['across']"></app-acrossclues>
+    </div>
+    <div class="block">
+        <app-downclues [clues]="puzzle['clues']['down']"></app-downclues>
+    </div>
 </div>

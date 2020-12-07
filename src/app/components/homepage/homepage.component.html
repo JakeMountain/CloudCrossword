@@ -1,5 +1,6 @@
 
 <div>
+  <button mat-button color="primary" (click)="createRoom()" >Select a Puzzle and Create Room</button>
   <mat-form-field appearance="fill">
     <mat-label>Choose a date</mat-label>
     <input matInput [matDatepicker]="picker" (dateChange)="datePicked($event.value)">
@@ -7,4 +8,19 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 </div>
-<div *ngIf="result" style="text-align: center"><app-puzzle [puzzle]="result"></app-puzzle></div>
+
+
+
+<mat-form-field appearance="fill">
+  <mat-label>Select an option</mat-label>
+  <mat-select [(value)]="selectedRoom">
+    <mat-option>None</mat-option>
+    <mat-option value=1>1</mat-option>
+    <mat-option value=2>2</mat-option>
+    <mat-option value=3>3</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<button mat-button color="primary" (click)="joinRoom()">Join Room</button>
+
+<div *ngIf="result && roomID>0" style="text-align: center"><app-puzzle [puzzle]="result" [roomID]="roomID"></app-puzzle></div>
