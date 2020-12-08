@@ -43,24 +43,17 @@ export class HomepageComponent implements OnInit {
         this.userGrid[i] = ".";
       }
     }
+    console.log(JSON.stringify(this.userGrid));
   }
   createRoom(){
     this.createGrid();
-    const req = this.roomService.putRoom(this.userGrid);
-    req.subscribe((data : any) => {
-      console.log(data);
-      this.roomID = data;
-    });
+    let requestResult = this.roomService.putRoom(this.userGrid);
+    console.log(requestResult);
   }
   joinRoom(){
     this.roomID = this.selectedRoom;
-    const req = this.roomService.getRoom(this.roomID);
-    let requestData = null;
-    req.subscribe((data : any) => {
-      console.log(data);
-      requestData = data;
-    });
-    console.log(requestData);
+    let requestResult = this.roomService.getRoom(this.roomID);
+    console.log(requestResult);
   }
 
 }

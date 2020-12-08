@@ -380,20 +380,20 @@ export class PuzzleComponent implements OnInit {
 
   getServerGrid(){
     //call server for updated usergrid
-    const req = this.roomService.getRoom(this.roomID);
-    let requestData = null;
-    req.subscribe((data : any) => {
-      console.log(data);
-      requestData = data;
-      console.log(requestData);
-      //this.userGrid = requestData[0]["usergrid"];
+    const url = `http://localhost:3000/room?room=${this.roomID}`;
+    const userAction = async () => {
+      const response = await fetch(url);
+      const myJson = await response.json(); //extract JSON from the http response
+      return(myJson);
+    }
+    userAction().then(result => {
+      console.log(result);
+      this.userGrid = result[0].usergrid;
     });
   }
   updateServerGrid(){
-    const req = this.roomService.putRoomWithID(this.roomID, this.userGrid);
-    req.subscribe((data : any) => {
-      console.log(data);
-    });
+    let reqResult = this.roomService.putRoomWithID(this.roomID, this.userGrid);
+    console.log(reqResult);
   }
   ngOnDestroy(){
     this.subscription.unsubscribe();
