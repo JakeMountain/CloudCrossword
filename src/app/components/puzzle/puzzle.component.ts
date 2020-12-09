@@ -32,7 +32,7 @@ export class PuzzleComponent implements OnInit {
   subscription: Subscription;
 
   localurl = 'http://localhost:3000';
-  cloudurl = `ec2-3-93-45-124.compute-1.amazonaws.com:3000`;
+  cloudurl = `http://ec2-3-93-45-124.compute-1.amazonaws.com:3000`;
 
   constructor(private roomService:RoomService) {
     this.rows = 0;
