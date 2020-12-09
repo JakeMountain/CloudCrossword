@@ -10,7 +10,7 @@ export class RoomService {
   constructor(private http: HttpClient) { }
 
   putRoom(grid:String[]){
-    const url = this.localurl+`/room`;
+    const url = this.cloudurl+`/room`;
 
     const putMethod = {
     method: 'PUT', // Method itself
@@ -32,7 +32,7 @@ export class RoomService {
 
   }
   putRoomWithID(room:number, grid:String[]){
-    const url = this.localurl+`/room/${room}`;
+    const url = this.cloudurl+`/room/${room}`;
     const putMethod = {
       method: 'PUT', // Method itself
       headers: {
@@ -57,7 +57,7 @@ export class RoomService {
   // }
 
   getRoom(room:number){
-    const url = this.localurl+`/room?room=${room}`;
+    const url = this.cloudurl+`/room?room=${room}`;
     const userAction = async () => {
       const response = await fetch(url);
       const myJson = await response.json(); //extract JSON from the http response

@@ -14,6 +14,8 @@ export class HomepageComponent implements OnInit {
   userGrid: Array<string>;
   roomID: number;
   selectedRoom = 0;
+  localurl = 'http://localhost:3000';
+  cloudurl = `ec2-3-93-45-124.compute-1.amazonaws.com:3000`;
 
   constructor(private xwordService: XwordFetchService, private roomService:RoomService) { 
     this.userGrid = []; //SERVER
@@ -47,13 +49,40 @@ export class HomepageComponent implements OnInit {
   }
   createRoom(){
     this.createGrid();
-    let requestResult = this.roomService.putRoom(this.userGrid);
-    console.log(requestResult);
+    const url = `http://localhost:3000/room`;
+
+    const putMethod = {
+    method: 'PUT', // Method itself
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8' // Indicates the content 
+    },
+    body: JSON.stringify(this.userGrid) // We send data in JSON format
+    }
+    
+    // make the HTTP put request using fetch api
+    const userAction = async () => {
+      const response = await fetch(url, putMethod);
+      const myJson = await response.json(); //extract JSON from the http response
+      return(myJson);
+    }
+    userAction().then(result => {
+      this.roomID = result[0].max;
+    })
   }
   joinRoom(){
     this.roomID = this.selectedRoom;
     let requestResult = this.roomService.getRoom(this.roomID);
     console.log(requestResult);
+
+    const url = this.localurl+`/room?room=${this.roomID}`;
+    const userAction = async () => {
+      const response = await fetch(url);
+      const myJson = await response.json(); //extract JSON from the http response
+      return(myJson);
+    }
+    userAction().then(result => {
+      this.userGrid = result[0].usergrid;
+    })
   }
 
 }

@@ -31,6 +31,9 @@ export class PuzzleComponent implements OnInit {
 
   subscription: Subscription;
 
+  localurl = 'http://localhost:3000';
+  cloudurl = `ec2-3-93-45-124.compute-1.amazonaws.com:3000`;
+
   constructor(private roomService:RoomService) {
     this.rows = 0;
     this.cols = 0;
@@ -51,7 +54,7 @@ export class PuzzleComponent implements OnInit {
     this.userGrid = []; //SERVER
 
 
-    const source = interval(10000);
+    const source = interval(2000);
     this.subscription = source.subscribe(val => this.getServerGrid());
   }
 
@@ -380,14 +383,13 @@ export class PuzzleComponent implements OnInit {
 
   getServerGrid(){
     //call server for updated usergrid
-    const url = `http://localhost:3000/room?room=${this.roomID}`;
+    const url = this.cloudurl + `/room?room=${this.roomID}`;
     const userAction = async () => {
       const response = await fetch(url);
       const myJson = await response.json(); //extract JSON from the http response
       return(myJson);
     }
     userAction().then(result => {
-      console.log(result);
       this.userGrid = result[0].usergrid;
     });
   }
