@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class RoomService {
-  localurl = 'http://localhost:3000';
-  cloudurl = `http://ec2-3-93-45-124.compute-1.amazonaws.com:3000`;
+  localurl = 'http://localhost:4000';
+  cloudurl = `http://ec2-3-93-45-124.compute-1.amazonaws.com:4000`;
   constructor(private http: HttpClient) { }
 
   putRoom(grid:String[]){
