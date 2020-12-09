@@ -49,7 +49,7 @@ export class HomepageComponent implements OnInit {
   }
   createRoom(){
     this.createGrid();
-    const url = `http://localhost:3000/room`;
+    const url = this.cloudurl+`/room`;
 
     const putMethod = {
     method: 'PUT', // Method itself
@@ -74,7 +74,7 @@ export class HomepageComponent implements OnInit {
     let requestResult = this.roomService.getRoom(this.roomID);
     console.log(requestResult);
 
-    const url = this.localurl+`/room?room=${this.roomID}`;
+    const url = this.cloudurl+`/room?room=${this.roomID}`;
     const userAction = async () => {
       const response = await fetch(url);
       const myJson = await response.json(); //extract JSON from the http response
